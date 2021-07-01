@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { ThemeContext } from '../utils/contexts/ThemeContext'
+import { translate } from '../utils/localizable/localizable'
 
 const MIN_IN_MILISECONDS = 60 * 1000
 const SEC_IN_MILISECONDS = 1000
 const SEC_20_IN_MILISECONDS = 20 * 1000
 
-export default function Clock({ time, inverse, onPress, disabled, active, finished, winner }) {
+export default function Clock({ time, inverse, onPress, disabled, active, finished, winner, moves }) {
+
+    const { theme } = useContext(ThemeContext)
 
     const formatTime = (time) => {
         let min = (Math.floor(time / MIN_IN_MILISECONDS) % 60)
@@ -20,15 +24,11 @@ export default function Clock({ time, inverse, onPress, disabled, active, finish
             disabled={disabled}
             style={{
                 ...styles.container,
-                backgroundColor: winner ? 'green' : finished ? 'red' : active ? '#19D3DA' : '#686D76',
+                backgroundColor: winner ? 'green' : finished ? 'red' : active ? theme.secondary : theme.primary,
                 transform: [{ rotate: inverse ? '180deg' : '0deg' }]
             }}>
-            <View style={{
-                ...styles.innerView,
-                backgroundColor: winner ? 'green' : finished ? 'red' : active ? '#19D3DA' : '#686D76',
-            }}>
-                <Text style={styles.text}>{formatTime(time)}</Text>
-            </View>
+            <Text style={{ ...styles.text, color: theme.contrast }}>{formatTime(time)}</Text>
+            <Text style={{ ...styles.movesText, color: theme.contrast }}> {translate('moves') + moves}</Text>
         </TouchableOpacity>
     )
 }
@@ -36,24 +36,20 @@ export default function Clock({ time, inverse, onPress, disabled, active, finish
 const styles = StyleSheet.create({
     container: {
         height: '30%',
-        backgroundColor: '#686D76',
         alignItems: 'center',
         justifyContent: 'center',
         margin: 40,
         width: '90%',
         borderRadius: 10
     },
-    innerView: {
-        margin: 20,
-        backgroundColor: '#787e8a',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-        borderRadius: 10,
-        padding: 20,
-    },
     text: {
         fontSize: 75,
         color: 'white'
+    },
+    movesText: {
+        fontSize: 14,
+        color: 'white',
+        marginTop: 20,
+        textAlign: 'left'
     }
 });
