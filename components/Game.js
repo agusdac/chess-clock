@@ -4,12 +4,16 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import Clock from './Clock';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function Game() {
 
+    /* Hooks */
     const { theme } = useContext(ThemeContext)
+    const navigation = useNavigation()
 
+    /* State */
     const [timePlayer1, setTimePlayer1] = useState(60000)
     const [timePlayer2, setTimePlayer2] = useState(12000)
     const [movesPlayer1, setMovesPlayer1] = useState(0)
@@ -24,12 +28,7 @@ export default function Game() {
     const countRefPlayer1 = useRef(null)
     const countRefPlayer2 = useRef(null)
 
-    const clickedPlayer1 = () => {
-        clearInterval(countRefPlayer1.current)
-        if (isPlayer2Disabled) {
-            if (increment) setTimePlayer1(timePlayer1 + increment)
-            setMovesPlayer1((movesPlayer1) => movesPlayer1 + 1)
-        }
+    const startTimerPlayer2 = () => {
         countRefPlayer2.current = setInterval(() => {
             setTimePlayer2((timePlayer2) => {
                 if (timePlayer2 === 100) {
@@ -40,6 +39,28 @@ export default function Game() {
                 return timePlayer2 - 100
             })
         }, 100)
+    }
+
+    const startTimerPlayer1 = () => {
+        countRefPlayer1.current = setInterval(() => {
+            setTimePlayer1((timePlayer1) => {
+                if (timePlayer1 === 100) {
+                    clearInterval(countRefPlayer1.current)
+                    setPlayer1Disabled(true)
+                    setPlayer2Disabled(true)
+                }
+                return timePlayer1 - 100
+            })
+        }, 100)
+    }
+
+    const clickedPlayer1 = () => {
+        clearInterval(countRefPlayer1.current)
+        if (isPlayer2Disabled) {
+            if (increment) setTimePlayer1(timePlayer1 + increment)
+            setMovesPlayer1((movesPlayer1) => movesPlayer1 + 1)
+        }
+        startTimerPlayer2()
         setPlayer2Disabled(false)
         setPlayer1Disabled(true)
         setPlayer2Active(true)
@@ -52,16 +73,7 @@ export default function Game() {
             if (increment) setTimePlayer2(timePlayer2 + increment)
             setMovesPlayer2((movesPlayer2) => movesPlayer2 + 1)
         }
-        countRefPlayer1.current = setInterval(() => {
-            setTimePlayer1((timePlayer1) => {
-                if (timePlayer1 === 100) {
-                    clearInterval(countRefPlayer1.current)
-                    setPlayer1Disabled(true)
-                    setPlayer2Disabled(true)
-                }
-                return timePlayer1 - 100
-            })
-        }, 100)
+        startTimerPlayer1()
         setPlayer1Disabled(false)
         setPlayer2Disabled(true)
         setPlayer2Active(false)
@@ -97,28 +109,10 @@ export default function Game() {
         setPaused(false)
         if (isPlayer1Last) {
             setPlayer1Disabled(false)
-            countRefPlayer1.current = setInterval(() => {
-                setTimePlayer1((timePlayer1) => {
-                    if (timePlayer1 === 100) {
-                        clearInterval(countRefPlayer1.current)
-                        setPlayer1Disabled(true)
-                        setPlayer2Disabled(true)
-                    }
-                    return timePlayer1 - 100
-                })
-            }, 100)
+            startTimerPlayer1()
         } else {
             setPlayer2Disabled(false)
-            countRefPlayer2.current = setInterval(() => {
-                setTimePlayer2((timePlayer2) => {
-                    if (timePlayer2 === 100) {
-                        clearInterval(countRefPlayer2.current)
-                        setPlayer1Disabled(true)
-                        setPlayer2Disabled(true)
-                    }
-                    return timePlayer2 - 100
-                })
-            }, 100)
+            startTimerPlayer2()
         }
     }
 
@@ -143,8 +137,8 @@ export default function Game() {
                         <MaterialCommunityIcons name="pause" size={40} color={theme.contrast} />
                     </TouchableOpacity>
                 }
-                <TouchableOpacity onPress={resetTimers}>
-                    <MaterialIcons name="settings" size={40} color={theme.contrast} style={{ marginLeft: 20 }} />
+                <TouchableOpacity onPress={() => navigation.navigate('TimeList')}>
+                    <MaterialIcons name="menu" size={40} color={theme.contrast} style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
             </View>
             <Clock time={timePlayer2}
