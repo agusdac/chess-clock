@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import Clock from './Clock';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
+import { TimeContext } from '../utils/contexts/TimeContext';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -11,14 +12,15 @@ export default function Game() {
 
     /* Hooks */
     const { theme } = useContext(ThemeContext)
+    const { selectedTime } = useContext(TimeContext)
     const navigation = useNavigation()
 
     /* State */
-    const [timePlayer1, setTimePlayer1] = useState(60000)
-    const [timePlayer2, setTimePlayer2] = useState(12000)
+    const [timePlayer1, setTimePlayer1] = useState(selectedTime.time)
+    const [timePlayer2, setTimePlayer2] = useState(selectedTime.timeP2 ?? selectedTime.time)
+    const [increment, setIncrement] = useState(selectedTime.increment ?? 0)
     const [movesPlayer1, setMovesPlayer1] = useState(0)
     const [movesPlayer2, setMovesPlayer2] = useState(0)
-    const [increment, setIncrement] = useState(0)
     const [isPlayer1Disabled, setPlayer1Disabled] = useState(false)
     const [isPlayer2Disabled, setPlayer2Disabled] = useState(false)
     const [isPlayer1Active, setPlayer1Active] = useState(false)
@@ -57,6 +59,7 @@ export default function Game() {
     const clickedPlayer1 = () => {
         clearInterval(countRefPlayer1.current)
         if (isPlayer2Disabled) {
+          console.log(increment);
             if (increment) setTimePlayer1(timePlayer1 + increment)
             setMovesPlayer1((movesPlayer1) => movesPlayer1 + 1)
         }
@@ -81,8 +84,8 @@ export default function Game() {
     }
 
     const resetTimers = () => {
-        setTimePlayer1(60000)
-        setTimePlayer2(6000)
+        setTimePlayer1(selectedTime.time)
+        setTimePlayer2(selectedTime.timeP2 ?? selectedTime.time)
         setMovesPlayer1(0)
         setMovesPlayer2(0)
         clearInterval(countRefPlayer1.current)

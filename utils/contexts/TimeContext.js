@@ -8,34 +8,35 @@ const defaultTimes = [
     {
         id: '1',
         name: 'Time 1 - Regular',
-        time: 5,
+        time: 5 * 60 * 1000, //miliseconds
     },
     {
         id: '2',
         name: 'Time 2 - With Increment',
-        time: 10,
-        increment: 3,
+        time: 10 * 60 * 1000,
+        increment: 3 * 1000,
     },
     {
         id: '3',
         name: 'Time 3 - Different for the players',
-        time: 10,
-        timeP2: 5,
+        time: 10 * 60 * 1000,
+        timeP2: 5 * 60 * 1000,
     },
 ]
 
 const TimeContextProvider = (props) => {
 
-    const [times, setCurrentTimes] = useState(defaultTimes)
+    const [times, setTimes] = useState(defaultTimes)
+    const [selectedTime, setSelectedTime] = useState(defaultTimes[0])
 
     useEffect(() => {
         AsyncStorage.getItem('times').then(times => {
-            if (times) setCurrentTimes(times)
+            if (times) setTimes(times)
         }).catch(err => console.log('error reading times from storage: ', err))
     }, [])
 
     return (
-        <TimeContext.Provider value={{ times }}>
+        <TimeContext.Provider value={{ times, selectedTime, setSelectedTime }}>
             {props.children}
         </TimeContext.Provider>
     )
