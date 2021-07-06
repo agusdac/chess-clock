@@ -1,42 +1,15 @@
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import es from './es.js'
+import ca from './ca.js'
+import en from './en.js'
 
 export const initLocalizable = () => {
     // Set the key-value pairs for the different languages you want to support.
     i18n.translations = {
-        en: {
-            moves: 'Moves: ',
-            timeControl: 'Time Control',
-            time: 'Time',
-            increment: 'Increment',
-            timePlayer1: 'Time for player 1',
-            timePlayer2: 'Time for player 2',
-            newTimeControl: 'New time control',
-            name: 'Name',
-            settings: 'Settings',
-        },
-        es: {
-            moves: 'Movimientos: ',
-            timeControl: 'Controles de tiempo',
-            time: 'Tiempo',
-            increment: 'Incremento',
-            timePlayer1: 'Tiempo para el jugador 1',
-            timePlayer2: 'Tiempo para el jugador 2',
-            newTimeControl: 'Nuevo control de tiempo',
-            name: 'Nombre',
-            settings: 'Ajustes',
-        },
-        ca: {
-            moves: 'Moviments: ',
-            timeControl: 'Controls de temps',
-            time: 'Temps',
-            increment: 'Increment',
-            timePlayer1: 'Temps pel jugador 1',
-            timePlayer2: 'Temps pel jugador 2',
-            newTimeControl: 'Nou control de temps',
-            name: 'Nom',
-            settings: 'Configuració',
-        },
+        en: en,
+        es: es,
+        ca: ca,
     };
     // Set the locale once at the beginning of your app.
     i18n.locale = Localization.locale;
@@ -46,4 +19,17 @@ export const initLocalizable = () => {
 
 export const translate = key => {
     return i18n.t(key)
+}
+
+export const getCurrentLanguage = () => {
+    let acrLanguage = i18n.locale.split('-')[0]
+    switch (acrLanguage) {
+      case 'es':
+        return translate('spanish')
+      case 'ca':
+        return translate('catalan')
+      default:
+        return translate('english')
+    }
+    return
 }

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import Clock from './Clock';
@@ -12,13 +12,14 @@ export default function Game() {
 
     /* Hooks */
     const { theme } = useContext(ThemeContext)
-    const { selectedTime } = useContext(TimeContext)
+    const { state } = useContext(TimeContext)
+    const { selectedTime } = state
     const navigation = useNavigation()
 
     /* State */
     const [timePlayer1, setTimePlayer1] = useState(selectedTime.time)
     const [timePlayer2, setTimePlayer2] = useState(selectedTime.timeP2 ?? selectedTime.time)
-    const [increment, setIncrement] = useState(selectedTime.increment ?? 0)
+    const [increment, setIncrement] = useState(selectedTime.increment)
     const [movesPlayer1, setMovesPlayer1] = useState(0)
     const [movesPlayer2, setMovesPlayer2] = useState(0)
     const [isPlayer1Disabled, setPlayer1Disabled] = useState(false)
@@ -29,6 +30,36 @@ export default function Game() {
     const [isPlayer1Last, setLastPlayer] = useState(null)
     const countRefPlayer1 = useRef(null)
     const countRefPlayer2 = useRef(null)
+    /* Delay */
+    const delayTimerRefPlayer1 = useRef(null)
+    const delayTimerRefPlayer2 = useRef(null)
+    /* Bronstein */
+    const [msPassed, setMsPassed] = useState(0)
+
+    const getIncrement = () => {
+      switch (increment.type) {
+        case 'D':
+          return 0
+        case 'B':
+          return Math.min(msPassed, increment.amount)
+        default:
+          return increment.amount
+      }
+    }
+
+    const startTimerOrDelayPlayer2 = () => {
+      if (increment && increment.type === 'D') {
+        delayTimerRefPlayer2.current = setTimeout(() => startTimerPlayer2(), increment.amount - 100)
+      }
+      else startTimerPlayer2()
+    }
+
+    const startTimerOrDelayPlayer1 = () => {
+      if (increment && increment.type === 'D') {
+        delayTimerRefPlayer1.current = setTimeout(() => startTimerPlayer1(), increment.amount - 100)
+      }
+      else startTimerPlayer1()
+    }
 
     const startTimerPlayer2 = () => {
         countRefPlayer2.current = setInterval(() => {
@@ -37,7 +68,7 @@ export default function Game() {
                     clearInterval(countRefPlayer2.current)
                     setPlayer1Disabled(true)
                     setPlayer2Disabled(true)
-                }
+                } else if (increment && increment.type === 'B') setMsPassed((msPassed) => msPassed + 100)
                 return timePlayer2 - 100
             })
         }, 100)
@@ -50,7 +81,7 @@ export default function Game() {
                     clearInterval(countRefPlayer1.current)
                     setPlayer1Disabled(true)
                     setPlayer2Disabled(true)
-                }
+                } else if (increment && increment.type === 'B') setMsPassed((msPassed) => msPassed + 100)
                 return timePlayer1 - 100
             })
         }, 100)
@@ -58,12 +89,12 @@ export default function Game() {
 
     const clickedPlayer1 = () => {
         clearInterval(countRefPlayer1.current)
+        clearInterval(delayTimerRefPlayer1.current)
         if (isPlayer2Disabled) {
-          console.log(increment);
-            if (increment) setTimePlayer1(timePlayer1 + increment)
+            if (increment) setTimePlayer1(timePlayer1 + getIncrement())
             setMovesPlayer1((movesPlayer1) => movesPlayer1 + 1)
         }
-        startTimerPlayer2()
+        startTimerOrDelayPlayer2()
         setPlayer2Disabled(false)
         setPlayer1Disabled(true)
         setPlayer2Active(true)
@@ -72,11 +103,13 @@ export default function Game() {
 
     const clickedPlayer2 = () => {
         clearInterval(countRefPlayer2.current)
+        clearInterval(delayTimerRefPlayer2.current)
         if (isPlayer1Disabled) {
-            if (increment) setTimePlayer2(timePlayer2 + increment)
+            if (increment) setTimePlayer2(timePlayer2 + getIncrement())
             setMovesPlayer2((movesPlayer2) => movesPlayer2 + 1)
         }
-        startTimerPlayer1()
+        startTimerOrDelayPlayer1()
+        setMsPassed(0)
         setPlayer1Disabled(false)
         setPlayer2Disabled(true)
         setPlayer2Active(false)
@@ -90,11 +123,14 @@ export default function Game() {
         setMovesPlayer2(0)
         clearInterval(countRefPlayer1.current)
         clearInterval(countRefPlayer2.current)
+        clearInterval(delayTimerRefPlayer1.current)
+        clearInterval(delayTimerRefPlayer2.current)
         setPlayer1Disabled(false)
         setPlayer2Disabled(false)
         setPlayer2Active(false)
         setPlayer1Active(false)
         setPaused(false)
+        setMsPassed(0)
     }
 
     const pauseTimers = () => {
@@ -105,6 +141,8 @@ export default function Game() {
             setPlayer2Disabled(true)
             clearInterval(countRefPlayer1.current)
             clearInterval(countRefPlayer2.current)
+            clearInterval(delayTimerRefPlayer1.current)
+            clearInterval(delayTimerRefPlayer2.current)
         }
     }
 
@@ -112,12 +150,17 @@ export default function Game() {
         setPaused(false)
         if (isPlayer1Last) {
             setPlayer1Disabled(false)
-            startTimerPlayer1()
+            startTimerOrDelayPlayer1()
         } else {
             setPlayer2Disabled(false)
-            startTimerPlayer2()
+            startTimerOrDelayPlayer2()
         }
     }
+
+    useEffect(() => {
+      resetTimers()
+      setIncrement(selectedTime.increment)
+    }, [state])
 
     return (
         <View style={{ ...styles.container, backgroundColor: theme.background }}>

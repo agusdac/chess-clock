@@ -9,7 +9,7 @@ import { useContext } from 'react/cjs/react.development';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import AddTime from './AddTime';
-import Settings from './Settings';
+import Settings from './settings/Settings';
 
 const { Navigator, Screen } = createStackNavigator();
 

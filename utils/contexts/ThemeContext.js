@@ -7,12 +7,14 @@ export const ThemeContext = React.createContext();
 
 const themes = {
     dark: {
+        key: 'dark',
         background: colors.darkGrey,
         primary: colors.grey,
         secondary: colors.lightBlue,
         contrast: colors.white,
     },
     light: {
+        key: 'light',
         background: colors.white,
         primary: colors.grey,
         secondary: colors.lightBlue,
