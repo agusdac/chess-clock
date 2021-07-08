@@ -2,11 +2,13 @@ import React, {useState} from 'react'
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from 'react-native'
 import { useContext } from 'react/cjs/react.development'
 import { ThemeContext } from '../utils/contexts/ThemeContext'
-import { translate } from '../utils/localizable/localizable'
+import { LanguageContext } from '../utils/contexts/LanguageContext'
 import { AntDesign } from '@expo/vector-icons'
 
 export default function AddTime() {
     const { theme } = useContext(ThemeContext)
+    const { translate } = useContext(LanguageContext)
+
     const [isPlayer2Different, setPlayer2Time] = useState(false)
 
     return (

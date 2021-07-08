@@ -17,6 +17,8 @@ const en = {
     english: 'English',
     light: 'Light',
     dark: 'Dark',
+    chooseLanguage: 'Choose a language',
+    chooseTheme: 'Choose a theme',
 }
 
 export default en

@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { useEffect } from 'react/cjs/react.development';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
+import { LanguageContext } from '../utils/contexts/LanguageContext';
 import { TimeContext, ACTION_TYPES } from '../utils/contexts/TimeContext';
-import { translate } from '../utils/localizable/localizable';
 import { AntDesign } from '@expo/vector-icons'
 import AppFunctions from '../utils/functions'
 
@@ -14,6 +14,8 @@ const MINUTES = 'minutes'
 const TimeList = () => {
 
     const { theme } = useContext(ThemeContext)
+    const { translate } = useContext(LanguageContext)
+    
     const { state, dispatch } = useContext(TimeContext)
     const navigation = useNavigation()
 

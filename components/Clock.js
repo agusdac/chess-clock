@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { ThemeContext } from '../utils/contexts/ThemeContext'
-import { translate } from '../utils/localizable/localizable'
+import { LanguageContext } from '../utils/contexts/LanguageContext';
 
 const MIN_IN_MILISECONDS = 60 * 1000
 const SEC_IN_MILISECONDS = 1000
@@ -10,6 +10,7 @@ const SEC_20_IN_MILISECONDS = 20 * 1000
 export default function Clock({ time, inverse, onPress, disabled, active, finished, winner, moves }) {
 
     const { theme } = useContext(ThemeContext)
+    const { translate } = useContext(LanguageContext)
 
     const formatTime = (time) => {
         let min = (Math.floor(time / MIN_IN_MILISECONDS) % 60)

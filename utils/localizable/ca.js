@@ -12,11 +12,13 @@ const ca = {
     minutes: 'minuts',
     theme: 'Tema: ',
     language: 'Idioma: ',
-    catalan: 'Catalan',
+    catalan: 'Català',
     spanish: 'Castellà',
     english: 'Anglès',
     light: 'Clar',
     dark: 'Obscur',
+    chooseLanguage: 'Escolleix un idioma',
+    chooseTheme: 'Escolleix un tema',
 }
 
 export default ca

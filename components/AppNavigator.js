@@ -2,11 +2,11 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Game from './Game';
-import { translate } from '../utils/localizable/localizable';
 import TimeList from './TimeList';
 import { Platform, TouchableOpacity, View } from 'react-native';
 import { useContext } from 'react/cjs/react.development';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
+import { LanguageContext } from '../utils/contexts/LanguageContext';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import AddTime from './AddTime';
 import Settings from './settings/Settings';
@@ -15,6 +15,7 @@ const { Navigator, Screen } = createStackNavigator();
 
 export default function AppNavigator() {
     const { theme } = useContext(ThemeContext)
+    const { translate } = useContext(LanguageContext)
 
     return (
         <NavigationContainer>

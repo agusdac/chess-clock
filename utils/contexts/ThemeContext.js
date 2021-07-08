@@ -32,8 +32,12 @@ const ThemeContextProvider = (props) => {
         }).catch(err => console.log('error reading theme value from storage: ', err))
     }, [])
 
+    const setTheme = theme => {
+      setCurrentTheme(theme)
+      AsyncStorage.setItem('theme', theme)
+    }
     return (
-        <ThemeContext.Provider value={{ theme: themes[currentTheme] }}>
+        <ThemeContext.Provider value={{ theme: themes[currentTheme], setTheme }}>
             {props.children}
         </ThemeContext.Provider>
     )

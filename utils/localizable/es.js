@@ -17,6 +17,8 @@ const es = {
     english: 'Inglés',
     light: 'Claro',
     dark: 'Oscuro',
+    chooseLanguage: 'Escoje un idioma',
+    chooseTheme: 'Escoje un tema',
 }
 
 export default es
