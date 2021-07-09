@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { useEffect } from 'react/cjs/react.development';
-import { translate } from '../../utils/localizable/localizable'
+import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
 export const LanguageContext = React.createContext();
@@ -13,6 +13,7 @@ const LanguageContextProvider = (props) => {
     useEffect(() => {
         AsyncStorage.getItem('language').then(language => {
             if (language) setCurrentLanguage(language)
+            else setCurrentLanguage(Localization.locale)
         }).catch(err => console.log('error reading language value from storage: ', err))
     }, [])
 

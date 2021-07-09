@@ -1,15 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { useEffect } from 'react/cjs/react.development';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { LanguageContext } from '../utils/contexts/LanguageContext';
 import { TimeContext, ACTION_TYPES } from '../utils/contexts/TimeContext';
 import { AntDesign } from '@expo/vector-icons'
 import AppFunctions from '../utils/functions'
-
-const SECONDS = 'seconds'
-const MINUTES = 'minutes'
 
 const TimeList = () => {
 
@@ -17,17 +13,11 @@ const TimeList = () => {
     const { translate } = useContext(LanguageContext)
     
     const { state, dispatch } = useContext(TimeContext)
-    const navigation = useNavigation()
 
     const [activeTimes, setActiveTimes] = useState(state.times.map(time => { return { ...time, clicked: false } }))
 
     const clickItem = id => {
         setActiveTimes(activeTimes.map(time => time.id === id ? { ...time, clicked: !time.clicked } : time))
-    }
-
-    const formatMiliseconds = (time, unit) => {
-      if (unit === SECONDS) return time / 1000
-      return time / 60 / 1000
     }
 
     return (

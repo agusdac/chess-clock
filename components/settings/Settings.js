@@ -19,6 +19,7 @@ export default function Settings() {
             <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.background, borderBottomColor: theme.primary }}
               onPress={() => showThemeModal(true)}>
               <Text style={{...styles.itemText, color: theme.contrast}}>{translate('theme') + ' ' + translate(theme.key)}</Text>
+              <View style={{...styles.colorSample, backgroundColor: theme.secondary}}/>
             </TouchableOpacity>
             <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.background, borderBottomColor: theme.primary }}
               onPress={() => showLanguageModal(true)}>
@@ -41,7 +42,14 @@ const styles = StyleSheet.create({
       paddingLeft: 5,
       paddingBottom: 10,
       borderBottomWidth: 1,
-      marginTop: 10
+      marginTop: 10,
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    },
+    colorSample: {
+      height: 20,
+      width: 20,
+      borderRadius: 10
     },
     itemText: {
       fontSize: 14

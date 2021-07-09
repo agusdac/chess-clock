@@ -67,6 +67,7 @@ const defaultTimes = [
 const TimeReducer = (state, action) => {
   switch (action.type) {
     case ACTION_TYPES.UPDATE_TIME:
+      AsyncStorage.setItem('selectedTime', JSON.stringify(action.time))
       return {...state, selectedTime: action.time};
     case ACTION_TYPES.STORE_TIMES:
       return {...state};
@@ -84,12 +85,10 @@ const TimeContextProvider = (props) => {
       selectedTime: defaultTimes[0]
      })
 
-    const [times, setTimes] = useState(defaultTimes)
-    const [selectedTime, setSelectedTime] = useState(defaultTimes[0])
-
     useEffect(() => {
-        AsyncStorage.getItem('times').then(times => {
-            if (times) dispatch({type: ACTION_TYPES.SET_TIMES, times})
+        AsyncStorage.multiGet(['times', 'selectedTime']).then(items => {
+            if (items[0][1]) dispatch({type: ACTION_TYPES.SET_TIMES, times: items[0][1]})
+            if (items[1][1]) dispatch({type: ACTION_TYPES.UPDATE_TIME, time: JSON.parse(items[1][1])})
         }).catch(err => console.log('error reading times from storage: ', err))
     }, [])
 

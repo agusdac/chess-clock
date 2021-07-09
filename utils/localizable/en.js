@@ -19,6 +19,12 @@ const en = {
     dark: 'Dark',
     chooseLanguage: 'Choose a language',
     chooseTheme: 'Choose a theme',
+    darkWithBlue: 'Dark (Blue)',
+    darkWithRed: 'Dark (Red)',
+    darkWithBrown: 'Dark (Brown)',
+    darkWithGreen: 'Dark (Green)',
+    lightWithGreen: 'Light (Green)',
+    lightWithOrange: 'Light (Orange)',
 }
 
 export default en

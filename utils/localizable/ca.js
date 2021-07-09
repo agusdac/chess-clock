@@ -19,6 +19,12 @@ const ca = {
     dark: 'Obscur',
     chooseLanguage: 'Escolleix un idioma',
     chooseTheme: 'Escolleix un tema',
+    darkWithBlue: 'Obscur (Blau)',
+    darkWithRed: 'Obscur (Vermell)',
+    darkWithBrown: 'Obscur (Marró)',
+    darkWithGreen: 'Obscur (Verd)',
+    lightWithGreen: 'Clar (Verd)',
+    lightWithOrange: 'Clar (Taronja)',
 }
 
 export default ca

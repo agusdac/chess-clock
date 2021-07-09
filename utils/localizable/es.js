@@ -19,6 +19,12 @@ const es = {
     dark: 'Oscuro',
     chooseLanguage: 'Escoje un idioma',
     chooseTheme: 'Escoje un tema',
+    darkWithBlue: 'Oscuro (Azul)',
+    darkWithRed: 'Oscuro (Rojo)',
+    darkWithBrown: 'Oscuro (Marrón)',
+    darkWithGreen: 'Oscuro (Verde)',
+    lightWithGreen: 'Claro (Verde)',
+    lightWithOrange: 'Claro (Naranja)',
 }
 
 export default es

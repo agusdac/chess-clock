@@ -95,6 +95,7 @@ export default function Game() {
             setMovesPlayer1((movesPlayer1) => movesPlayer1 + 1)
         }
         startTimerOrDelayPlayer2()
+        setMsPassed(0)
         setPlayer2Disabled(false)
         setPlayer1Disabled(true)
         setPlayer2Active(true)
@@ -157,6 +158,11 @@ export default function Game() {
         }
     }
 
+    const goToList = () => {
+        //if (!isPaused) resetTimers()
+        navigation.navigate('TimeList')
+    }
+
     useEffect(() => {
       resetTimers()
       setIncrement(selectedTime.increment)
@@ -183,7 +189,7 @@ export default function Game() {
                         <MaterialCommunityIcons name="pause" size={40} color={theme.contrast} />
                     </TouchableOpacity>
                 }
-                <TouchableOpacity onPress={() => navigation.navigate('TimeList')}>
+                <TouchableOpacity onPress={goToList}>
                     <MaterialIcons name="menu" size={40} color={theme.contrast} style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
             </View>

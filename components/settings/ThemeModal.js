@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native'
 import { ThemeContext } from '../../utils/contexts/ThemeContext';
 import { LanguageContext } from '../../utils/contexts/LanguageContext';
 import { AntDesign } from '@expo/vector-icons'
+import themes from '../../utils/themes';
 
 export default function ThemeModal({visible, onPress}) {
 
@@ -28,14 +29,16 @@ export default function ThemeModal({visible, onPress}) {
                 </TouchableOpacity>
               </View>
               <View style={{...styles.list}}>
-                <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.key === 'dark' ? theme.secondary : theme.background }}
-                    onPress={() => setThemeAndClose('dark')}>
-                  <Text style={{...styles.itemText, color: theme.contrast}}>{translate('dark')}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.key === 'light' ? theme.secondary : theme.background }}
-                    onPress={() => setThemeAndClose('light')}>
-                  <Text style={{...styles.itemText, color: theme.contrast}}>{translate('light')}</Text>
-                </TouchableOpacity>
+                <FlatList data={themes}
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
+                  style={{flex:1, marginBottom: 20}}
+                  renderItem={({item}) => (
+                    <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.key === item.key ? theme.secondary : theme.background }}
+                      onPress={() => setThemeAndClose(item)}>
+                    <Text style={{...styles.itemText, color: theme.contrast}}>{translate(item.key)}</Text>
+                  </TouchableOpacity>
+                  )} />
               </View>
             </View>
           </View>
