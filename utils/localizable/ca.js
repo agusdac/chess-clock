@@ -25,6 +25,11 @@ const ca = {
     darkWithGreen: 'Obscur (Verd)',
     lightWithGreen: 'Clar (Verd)',
     lightWithOrange: 'Clar (Taronja)',
+    differentTimes: 'Vols posar temps diferents per jugador?',
+    FDescription: "Els jugadors reben la quantitat sencera de l'increment al final de cada torn.",
+    BDescription: "Els jugadors reben la quantitat utilitzada de l'increment al final de cada torn.",
+    DDescription: 'El rellotge del jugador no comença a contar fins que pasa el període de delay.',
+    save: 'Desar'
 }
 
 export default ca

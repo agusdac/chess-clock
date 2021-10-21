@@ -25,6 +25,11 @@ const en = {
     darkWithGreen: 'Dark (Green)',
     lightWithGreen: 'Light (Green)',
     lightWithOrange: 'Light (Orange)',
+    differentTimes: 'Do you want to set different times for each player?',
+    FDescription: 'The players recieve the full amount of increment at the end of each turn.',
+    BDescription: 'The players recieve the used amount of increment at the end of each turn.',
+    DDescription: "The player's clock doesn't start until the delay period is finished.",
+    save: 'Save'
 }
 
 export default en

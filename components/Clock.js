@@ -2,23 +2,12 @@ import React, { useContext } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { ThemeContext } from '../utils/contexts/ThemeContext'
 import { LanguageContext } from '../utils/contexts/LanguageContext';
-
-const MIN_IN_MILISECONDS = 60 * 1000
-const SEC_IN_MILISECONDS = 1000
-const SEC_20_IN_MILISECONDS = 20 * 1000
+import AppFunctions from '../utils/functions';
 
 export default function Clock({ time, inverse, onPress, disabled, active, finished, winner, moves }) {
 
     const { theme } = useContext(ThemeContext)
     const { translate } = useContext(LanguageContext)
-
-    const formatTime = (time) => {
-        let min = (Math.floor(time / MIN_IN_MILISECONDS) % 60)
-        let sec = Math.floor(time / SEC_IN_MILISECONDS) % 60
-        if (sec < 10) sec = `0${sec}`
-        if (time < SEC_20_IN_MILISECONDS) sec += `.${Math.floor(time / 100) % 10}`
-        return `${min}:${sec}`
-    }
 
     return (
         <TouchableOpacity onPress={onPress}
@@ -28,7 +17,7 @@ export default function Clock({ time, inverse, onPress, disabled, active, finish
                 backgroundColor: winner ? 'green' : finished ? 'red' : active ? theme.secondary : theme.primary,
                 transform: [{ rotate: inverse ? '180deg' : '0deg' }]
             }}>
-            <Text style={{ ...styles.text, color: theme.contrast }}>{formatTime(time)}</Text>
+            <Text style={{ ...styles.text, color: theme.contrast }}>{AppFunctions.formatTime(time)}</Text>
             <Text style={{ ...styles.movesText, color: theme.contrast }}> {translate('moves') + moves}</Text>
         </TouchableOpacity>
     )

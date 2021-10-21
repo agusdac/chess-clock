@@ -25,6 +25,11 @@ const es = {
     darkWithGreen: 'Oscuro (Verde)',
     lightWithGreen: 'Claro (Verde)',
     lightWithOrange: 'Claro (Naranja)',
+    differentTimes: '¿Quieres poner tiempos diferentes por jugador?',
+    FDescription: 'Los jugadores reciben la cantidad entera del incremento al final de cada turno.',
+    BDescription: 'Los jugadores reciben la cantidad usada del incremento al final de cada turno.',
+    DDescription: 'El reloj del jugador no empieza a contar hasta que pasa el periodo de delay.',
+    save: 'Guardar'
 }
 
 export default es

@@ -6,6 +6,7 @@ import Clock from './Clock';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { TimeContext } from '../utils/contexts/TimeContext';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Game() {
@@ -37,28 +38,28 @@ export default function Game() {
     const [msPassed, setMsPassed] = useState(0)
 
     const getIncrement = () => {
-      switch (increment.type) {
-        case 'D':
-          return 0
-        case 'B':
-          return Math.min(msPassed, increment.amount)
-        default:
-          return increment.amount
-      }
+        switch (increment.type) {
+            case 'D':
+                return 0
+            case 'B':
+                return Math.min(msPassed, increment.amount)
+            default:
+                return increment.amount
+        }
     }
 
     const startTimerOrDelayPlayer2 = () => {
-      if (increment && increment.type === 'D') {
-        delayTimerRefPlayer2.current = setTimeout(() => startTimerPlayer2(), increment.amount - 100)
-      }
-      else startTimerPlayer2()
+        if (increment && increment.type === 'D') {
+            delayTimerRefPlayer2.current = setTimeout(() => startTimerPlayer2(), increment.amount - 100)
+        }
+        else startTimerPlayer2()
     }
 
     const startTimerOrDelayPlayer1 = () => {
-      if (increment && increment.type === 'D') {
-        delayTimerRefPlayer1.current = setTimeout(() => startTimerPlayer1(), increment.amount - 100)
-      }
-      else startTimerPlayer1()
+        if (increment && increment.type === 'D') {
+            delayTimerRefPlayer1.current = setTimeout(() => startTimerPlayer1(), increment.amount - 100)
+        }
+        else startTimerPlayer1()
     }
 
     const startTimerPlayer2 = () => {
@@ -135,7 +136,7 @@ export default function Game() {
     }
 
     const pauseTimers = () => {
-        if (isPlayer2Disabled || isPlayer1Disabled) {
+        /* if (isPlayer2Disabled || isPlayer1Disabled) {
             setPaused(true)
             setLastPlayer(isPlayer2Disabled)
             setPlayer1Disabled(true)
@@ -144,7 +145,8 @@ export default function Game() {
             clearInterval(countRefPlayer2.current)
             clearInterval(delayTimerRefPlayer1.current)
             clearInterval(delayTimerRefPlayer2.current)
-        }
+        } */
+        AsyncStorage.clear()
     }
 
     const unpauseTimers = () => {
@@ -164,8 +166,8 @@ export default function Game() {
     }
 
     useEffect(() => {
-      resetTimers()
-      setIncrement(selectedTime.increment)
+        resetTimers()
+        setIncrement(selectedTime.increment)
     }, [state])
 
     return (
