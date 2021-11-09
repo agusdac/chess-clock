@@ -1,11 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState, useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { LanguageContext } from '../utils/contexts/LanguageContext';
 import { TimeContext, ACTION_TYPES } from '../utils/contexts/TimeContext';
-import { AntDesign } from '@expo/vector-icons'
 import AppFunctions from '../utils/functions'
+import TouchableIcon from './shared/TouchableIcon';
 
 const TimeList = ({ navigation }) => {
 
@@ -28,6 +27,11 @@ const TimeList = ({ navigation }) => {
         setActiveTimes(activeTimes.map(time => time.id === id ? { ...time, clicked: !time.clicked } : time))
     }
 
+    const deleteItem = id => {
+        setActiveTimes(activeTimes.filter(time => time.id !== id))
+        dispatch({ type: ACTION_TYPES.DELETE_TIME, timeId: id })
+    }
+
     return (
         <View style={{ ...styles.container, backgroundColor: theme.background }} >
             <FlatList
@@ -40,20 +44,31 @@ const TimeList = ({ navigation }) => {
                         onPress={() => dispatch({ type: ACTION_TYPES.UPDATE_TIME, time: item })}  >
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 5 }}>
                             <Text style={{ ...styles.itemName, color: theme.contrast, }} >{item.name}</Text>
-                            <TouchableOpacity onPress={() => clickItem(item.id)}>
-                                <AntDesign name={item.clicked ? "upcircleo" : "downcircleo"} size={20} color={theme.contrast} />
-                            </TouchableOpacity>
+                            <TouchableIcon onPress={() => clickItem(item.id)}
+                                family={'AntDesign'}
+                                name={item.clicked ? "upcircleo" : "downcircleo"}
+                                size={20} color={theme.contrast} />
                         </View>
-                        {item.clicked ? <View style={{ marginTop: 5, }}>
-                            <Text style={{ ...styles.itemText, color: theme.contrast }}>
-                                {item.timeP2 ? translate('timePlayer1') : translate('time')}: {AppFunctions.getLocalizedTimeDescription(item.time)}
-                            </Text>
-                            {item.increment ? <Text style={{ ...styles.itemText, color: theme.contrast }}>
-                                {translate('increment')}: {AppFunctions.getIncrementDescription(item.increment.type) + ' - ' + AppFunctions.getLocalizedTimeDescription(item.increment.amount)}
-                            </Text> : null}
-                            {item.timeP2 ? <Text style={{ ...styles.itemText, color: theme.contrast }}>
-                                {translate('timePlayer2')}: {AppFunctions.getLocalizedTimeDescription(item.timeP2)}
-                            </Text> : null}
+                        {item.clicked ? <View style={{ marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', paddingRight: 2 }}>
+                            <View>
+                                <Text style={{ ...styles.itemText, color: theme.contrast }}>
+                                    {item.timeP2 ? translate('timePlayer1') : translate('time')}: {AppFunctions.getLocalizedTimeDescription(item.time)}
+                                </Text>
+                                {item.increment ? <Text style={{ ...styles.itemText, color: theme.contrast }}>
+                                    {translate('increment')}: {AppFunctions.getIncrementDescription(item.increment.type) + ' - ' + AppFunctions.getLocalizedTimeDescription(item.increment.amount)}
+                                </Text> : null}
+                                {item.timeP2 ? <Text style={{ ...styles.itemText, color: theme.contrast }}>
+                                    {translate('timePlayer2')}: {AppFunctions.getLocalizedTimeDescription(item.timeP2)}
+                                </Text> : null}
+                            </View>
+                            <View style={{ marginTop: 5, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <TouchableIcon onPress={() => clickItem(item.id)} containerStyle={{ ...styles.settings, marginRight: 5 }}
+                                    family={'Feather'} name={"edit"}
+                                    size={20} color={theme.contrast} />
+                                <TouchableIcon onPress={() => deleteItem(item.id)} containerStyle={styles.settings}
+                                    family={'MaterialIcons'} name={"delete"}
+                                    size={20} color={theme.contrast} />
+                            </View>
                         </View> : null}
                     </TouchableOpacity>
                 )}
@@ -81,5 +96,8 @@ const styles = StyleSheet.create({
     itemText: {
         fontSize: 12,
         marginTop: 5
+    },
+    settings: {
+        alignSelf: 'flex-end',
     }
 })

@@ -29,7 +29,9 @@ const en = {
     FDescription: 'The players recieve the full amount of increment at the end of each turn.',
     BDescription: 'The players recieve the used amount of increment at the end of each turn.',
     DDescription: "The player's clock doesn't start until the delay period is finished.",
-    save: 'Save'
+    save: 'Save',
+    requiredField: "This field is required.",
+    timeFormatError: "Time must be in mm:ss format."
 }
 
 export default en

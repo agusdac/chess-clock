@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from 'react-native'
 import { useContext } from 'react/cjs/react.development'
 import { ThemeContext } from '../utils/contexts/ThemeContext'
 import { LanguageContext } from '../utils/contexts/LanguageContext'
-import { AntDesign } from '@expo/vector-icons'
 import { ACTION_TYPES, TimeContext } from '../utils/contexts/TimeContext'
 import uuid from 'react-native-uuid';
 import AppFunctions from '../utils/functions'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import TouchableIcon from './shared/TouchableIcon'
+import colors from '../utils/colors'
 
 const RadioButton = ({ selected, text, color, textColor, onSelected }) => (
     <TouchableOpacity style={styles.radioButton} onPress={onSelected}>
@@ -24,11 +25,17 @@ export default function AddTime({ navigation }) {
     const { state, dispatch } = useContext(TimeContext)
 
     const [name, setName] = useState('')
+    const [nameError, setNameError] = useState('')
     const [time, setTime] = useState(AppFunctions.formatTime(5 * 60 * 1000))
+    const [timeError, setTimeError] = useState('')
     const [timePlayer2, setTimePlayer2] = useState(AppFunctions.formatTime(10 * 60 * 1000))
+    const [time2Error, setTime2Error] = useState('')
     const [increment, setIncrement] = useState(0)
     const [isPlayer2Different, setPlayer2Time] = useState(false)
     const [incrementType, setIncrementType] = useState('F')
+    const [disabled, setDisabled] = useState(true)
+
+    const regexTime = new RegExp('^([0-9]?[0-9]?[0-9]):[0-5][0-9]$')
 
     const stringToMiliseconds = time => {
         let timeSplitted = time.split(':')
@@ -54,50 +61,77 @@ export default function AddTime({ navigation }) {
         }
         AsyncStorage.setItem('times', JSON.stringify([...state.times, newTime])).then(() => {
             dispatch({ type: ACTION_TYPES.STORE_TIMES, time: newTime })
-            navigation.goBack()
         }).catch((err) => {
             console.log(err);
         })
     }
 
+    const checkNameError = () => {
+        if (name === '') setNameError(translate('requiredField'))
+        else setNameError('')
+    }
+
+    const checkTimeError = () => {
+        if (time === '') setTimeError(translate('requiredField'))
+        else if (!time.match(regexTime)) setTimeError(translate('timeFormatError'))
+        else setTimeError('')
+    }
+
+    const checkTime2Error = () => {
+        if (timePlayer2 === '') setTime2Error(translate('requiredField'))
+        else if (!timePlayer2.match(regexTime)) setTime2Error(translate('timeFormatError'))
+        else setTime2Error('')
+    }
+
+    useEffect(() => {
+        setDisabled((name === '' || time === '' || nameError !== '' || timeError !== '' || (isPlayer2Different && time2Error !== '')))
+    }, [name, time, nameError, timeError, time2Error, isPlayer2Different])
+
     return (
         <ScrollView style={{ ...styles.container, backgroundColor: theme.background }}>
             <Text style={{ ...styles.label, color: theme.contrast }}>{translate('name')}</Text>
-            <TextInput style={{ ...styles.input, borderBottomColor: theme.contrast, color: theme.contrast }}
+            <TextInput style={{ ...styles.input, borderBottomColor: nameError ? colors.red : theme.contrast, color: theme.contrast }}
                 placeholder={translate('name')}
                 value={name}
                 onChangeText={setName}
+                onBlur={checkNameError}
                 placeholderTextColor={theme.primary}
             />
+            <Text style={styles.textError}>{nameError}</Text>
             <Text style={{ ...styles.label, color: theme.contrast }}>{translate('time')}</Text>
             <View style={styles.timeInputView}>
-                <TextInput style={{ ...styles.input, ...styles.timeInput, borderBottomColor: theme.contrast, color: theme.contrast }}
+                <TextInput style={{ ...styles.input, ...styles.timeInput, borderBottomColor: timeError ? colors.red : theme.contrast, color: theme.contrast }}
                     placeholder={translate('time')}
                     value={time}
                     keyboardType={'numeric'}
                     placeholderTextColor={theme.primary}
                     onChangeText={setTime}
+                    onBlur={checkTimeError}
                 />
                 <Text style={{ ...styles.label, color: theme.contrast, paddingBottom: 5 }}>{translate('minutes')} (mm:ss)</Text>
             </View>
+            <Text style={styles.textError}>{timeError}</Text>
             {isPlayer2Different ?
                 <View>
                     <View style={{ ...styles.label, flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ color: theme.contrast }}>{translate('timePlayer2')}</Text>
-                        <TouchableOpacity onPress={() => setPlayer2Time(!isPlayer2Different)}>
-                            <AntDesign name="close" size={18} color={theme.contrast} />
-                        </TouchableOpacity>
+                        <TouchableIcon onPress={() => setPlayer2Time(!isPlayer2Different)}
+                            family={'AntDesign'}
+                            name={"close"}
+                            size={18} color={theme.contrast} />
                     </View>
                     <View style={styles.timeInputView}>
-                        <TextInput style={{ ...styles.input, ...styles.timeInput, borderBottomColor: theme.contrast, color: theme.contrast }}
+                        <TextInput style={{ ...styles.input, ...styles.timeInput, borderBottomColor: time2Error ? colors.red : theme.contrast, color: theme.contrast }}
                             placeholder={translate('timePlayer2')}
                             value={timePlayer2}
                             keyboardType={'numeric'}
                             placeholderTextColor={theme.primary}
                             onChangeText={setTimePlayer2}
+                            onBlur={checkTime2Error}
                         />
                         <Text style={{ ...styles.label, color: theme.contrast, paddingBottom: 5 }}>{translate('minutes')} (mm:ss)</Text>
                     </View>
+                    <Text style={styles.textError}>{time2Error}</Text>
                 </View> :
                 <TouchableOpacity onPress={() => setPlayer2Time(!isPlayer2Different)}>
                     <Text style={{ ...styles.clickableLabel, color: theme.contrast }}>{translate('differentTimes')}</Text>
@@ -138,11 +172,11 @@ export default function AddTime({ navigation }) {
                 />
             </View> : null}
 
-            <View>
+            {increment ? <View>
                 <Text style={{ ...styles.clickableLabel, color: theme.contrast }}>{translate(`${incrementType}Description`)}</Text>
-            </View>
+            </View> : null}
 
-            <TouchableOpacity style={{ ...styles.button, backgroundColor: theme.secondary }} onPress={saveTime}>
+            <TouchableOpacity style={{ ...styles.button, backgroundColor: disabled ? theme.primary : theme.secondary }} onPress={saveTime} disabled={disabled}>
                 <Text style={{ color: theme.contrast }}>{translate('save')}</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -166,6 +200,14 @@ const styles = StyleSheet.create({
     input: {
         borderBottomWidth: 1,
         paddingVertical: 7
+    },
+    inputError: {
+        borderBottomColor: 'red',
+    },
+    textError: {
+        color: 'red',
+        fontSize: 12,
+        marginTop: 2
     },
     itemText: {
         fontSize: 12,

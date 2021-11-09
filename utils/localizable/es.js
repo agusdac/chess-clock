@@ -29,7 +29,9 @@ const es = {
     FDescription: 'Los jugadores reciben la cantidad entera del incremento al final de cada turno.',
     BDescription: 'Los jugadores reciben la cantidad usada del incremento al final de cada turno.',
     DDescription: 'El reloj del jugador no empieza a contar hasta que pasa el periodo de delay.',
-    save: 'Guardar'
+    save: 'Guardar',
+    requiredField: "Este campo es obligatorio.",
+    timeFormatError: "El tiempo tiene que estar en el formato mm:ss."
 }
 
 export default es

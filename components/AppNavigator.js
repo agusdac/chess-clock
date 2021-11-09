@@ -3,13 +3,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Game from './Game';
 import TimeList from './TimeList';
-import { Platform, TouchableOpacity, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { useContext } from 'react/cjs/react.development';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { LanguageContext } from '../utils/contexts/LanguageContext';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import AddTime from './AddTime';
 import Settings from './settings/Settings';
+import TouchableIcon from './shared/TouchableIcon';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -40,11 +41,10 @@ export default function AppNavigator() {
                 <Screen name="TimeList" component={TimeList} options={({ navigation }) => ({
                     headerRight: () => (
                         <View style={{ flexDirection: 'row', marginRight: 20 }}>
-                            <TouchableOpacity onPress={() => navigation.navigate('AddTime')} style={{ marginRight: 10, paddingVertical: 5 }} >
-                                <MaterialIcons name="add" color={theme.contrast} size={24} />
-                            </TouchableOpacity><TouchableOpacity onPress={() => navigation.navigate('Settings')} >
-                                <MaterialIcons name="settings" color={theme.contrast} size={24} style={{ paddingVertical: 5 }} />
-                            </TouchableOpacity>
+                            <TouchableIcon onPress={() => navigation.navigate('AddTime')} style={{ marginRight: 10, paddingVertical: 5 }}
+                                name="add" color={theme.contrast} size={24} family={'MaterialIcons'} />
+                            <TouchableIcon onPress={() => navigation.navigate('Settings')} style={{ paddingVertical: 5 }}
+                                name="settings" color={theme.contrast} size={24} family={'MaterialIcons'} />
                         </View>
                     ),
                     title: translate('timeControl')

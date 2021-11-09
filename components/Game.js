@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useRef, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { StyleSheet, View } from 'react-native';
 import Clock from './Clock';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { TimeContext } from '../utils/contexts/TimeContext';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TouchableIcon from './shared/TouchableIcon';
 
 
 export default function Game() {
@@ -136,7 +136,7 @@ export default function Game() {
     }
 
     const pauseTimers = () => {
-        /* if (isPlayer2Disabled || isPlayer1Disabled) {
+        if (isPlayer2Disabled || isPlayer1Disabled) {
             setPaused(true)
             setLastPlayer(isPlayer2Disabled)
             setPlayer1Disabled(true)
@@ -145,8 +145,8 @@ export default function Game() {
             clearInterval(countRefPlayer2.current)
             clearInterval(delayTimerRefPlayer1.current)
             clearInterval(delayTimerRefPlayer2.current)
-        } */
-        AsyncStorage.clear()
+        }
+        //AsyncStorage.clear()
     }
 
     const unpauseTimers = () => {
@@ -173,6 +173,7 @@ export default function Game() {
     return (
         <View style={{ ...styles.container, backgroundColor: theme.background }}>
             <Clock time={timePlayer1}
+                inverse
                 onPress={clickedPlayer1}
                 disabled={isPlayer1Disabled}
                 active={isPlayer1Active}
@@ -180,23 +181,18 @@ export default function Game() {
                 winner={timePlayer2 === 0}
                 moves={movesPlayer1} />
             <View style={styles.buttons}>
-                <TouchableOpacity onPress={resetTimers}>
-                    <MaterialCommunityIcons name="restart" size={40} color={theme.contrast} style={{ marginRight: 20 }} />
-                </TouchableOpacity>
+                <TouchableIcon onPress={resetTimers} family="MaterialCommunityIcons"
+                    name="restart" size={40} color={theme.contrast} style={{ marginRight: 20 }} />
                 {isPaused ?
-                    <TouchableOpacity onPress={unpauseTimers}>
-                        <MaterialCommunityIcons name="play" size={40} color={theme.contrast} />
-                    </TouchableOpacity> :
-                    <TouchableOpacity onPress={pauseTimers}>
-                        <MaterialCommunityIcons name="pause" size={40} color={theme.contrast} />
-                    </TouchableOpacity>
+                    <TouchableIcon onPress={unpauseTimers} family="MaterialCommunityIcons"
+                        name="play" size={40} color={theme.contrast} /> :
+                    <TouchableIcon onPress={pauseTimers} family="MaterialCommunityIcons"
+                        name="pause" size={40} color={theme.contrast} />
                 }
-                <TouchableOpacity onPress={goToList}>
-                    <MaterialIcons name="menu" size={40} color={theme.contrast} style={{ marginLeft: 20 }} />
-                </TouchableOpacity>
+                <TouchableIcon onPress={goToList} family="MaterialIcons" style={{ marginLeft: 20 }}
+                    name="menu" size={40} color={theme.contrast} />
             </View>
             <Clock time={timePlayer2}
-                inverse
                 onPress={clickedPlayer2}
                 disabled={isPlayer2Disabled}
                 active={isPlayer2Active}

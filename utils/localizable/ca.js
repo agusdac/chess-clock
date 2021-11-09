@@ -29,7 +29,9 @@ const ca = {
     FDescription: "Els jugadors reben la quantitat sencera de l'increment al final de cada torn.",
     BDescription: "Els jugadors reben la quantitat utilitzada de l'increment al final de cada torn.",
     DDescription: 'El rellotge del jugador no comença a contar fins que pasa el període de delay.',
-    save: 'Desar'
+    save: 'Desar',
+    requiredField: "Aquest camp és obligatori.",
+    timeFormatError: "El temps ha d'estar en el format mm:ss."
 }
 
 export default ca
