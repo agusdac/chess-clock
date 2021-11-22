@@ -14,7 +14,7 @@ export default function Clock({ time, inverse, onPress, disabled, active, finish
             disabled={disabled}
             style={{
                 ...styles.container,
-                backgroundColor: winner ? 'green' : finished ? 'red' : active ? theme.secondary : theme.primary,
+                backgroundColor: winner ? theme.win : finished ? theme.lose : active ? theme.secondary : theme.primary,
                 transform: [{ rotate: inverse ? '180deg' : '0deg' }]
             }}>
             <Text style={{ ...styles.text, color: theme.contrast }}>{AppFunctions.formatTime(time)}</Text>

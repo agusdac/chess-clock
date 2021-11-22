@@ -31,7 +31,13 @@ const en = {
     DDescription: "The player's clock doesn't start until the delay period is finished.",
     save: 'Save',
     requiredField: "This field is required.",
-    timeFormatError: "Time must be in mm:ss format."
+    timeFormatError: "Time must be in mm:ss format.",
+    incrementError: "The increment must be an integer number.",
+    editTime: "Edit time",
+    warning: "Warning",
+    deleteTimeDescription: "Are you sure you want to delete this time control?",
+    yes: 'Yes',
+    no: 'No'
 }
 
 export default en

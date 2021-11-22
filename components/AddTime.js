@@ -19,7 +19,7 @@ const RadioButton = ({ selected, text, color, textColor, onSelected }) => (
     </TouchableOpacity>
 )
 
-export default function AddTime({ navigation }) {
+export default function AddTime({ route, navigation }) {
     const { theme } = useContext(ThemeContext)
     const { translate } = useContext(LanguageContext)
     const { state, dispatch } = useContext(TimeContext)
@@ -31,6 +31,7 @@ export default function AddTime({ navigation }) {
     const [timePlayer2, setTimePlayer2] = useState(AppFunctions.formatTime(10 * 60 * 1000))
     const [time2Error, setTime2Error] = useState('')
     const [increment, setIncrement] = useState(0)
+    const [incrementError, setIncrementError] = useState('')
     const [isPlayer2Different, setPlayer2Time] = useState(false)
     const [incrementType, setIncrementType] = useState('F')
     const [disabled, setDisabled] = useState(true)
@@ -46,7 +47,7 @@ export default function AddTime({ navigation }) {
     const saveTime = () => {
 
         let newTime = {
-            id: uuid.v4(),
+            id: route.params ? route.params.time.id : uuid.v4(),
             name,
             time: stringToMiliseconds(time) //miliseconds,
         }
@@ -59,8 +60,11 @@ export default function AddTime({ navigation }) {
         if (isPlayer2Different) {
             newTime.timeP2 = stringToMiliseconds(timePlayer2)
         }
-        AsyncStorage.setItem('times', JSON.stringify([...state.times, newTime])).then(() => {
-            dispatch({ type: ACTION_TYPES.STORE_TIMES, time: newTime })
+
+        AsyncStorage.setItem('times', JSON.stringify(state.times.map(time => time.id === newTime.id ? newTime : time))).then(() => {
+            if (route.params) dispatch({ type: ACTION_TYPES.EDIT_TIME, time: newTime })
+            else dispatch({ type: ACTION_TYPES.STORE_TIMES, time: newTime })
+            navigation.goBack()
         }).catch((err) => {
             console.log(err);
         })
@@ -83,9 +87,31 @@ export default function AddTime({ navigation }) {
         else setTime2Error('')
     }
 
+    const checkIncrementError = () => {
+        if (!Number.isInteger(Number(increment))) setIncrementError(translate('incrementError'))
+        else setIncrementError('')
+    }
+
     useEffect(() => {
-        setDisabled((name === '' || time === '' || nameError !== '' || timeError !== '' || (isPlayer2Different && time2Error !== '')))
-    }, [name, time, nameError, timeError, time2Error, isPlayer2Different])
+        setDisabled((name === '' || time === '' || nameError !== '' || timeError !== '' || incrementError !== '' || (isPlayer2Different && time2Error !== '')))
+    }, [name, time, nameError, timeError, time2Error, isPlayer2Different, incrementError])
+
+    useEffect(() => {
+        if (route.params) {
+            const { time } = route.params
+            navigation.setOptions({ title: translate('editTime') })
+            setName(time.name)
+            setTime(AppFunctions.formatTime(time.time))
+            if (time.timeP2) {
+                setTimePlayer2(AppFunctions.formatTime(time.timeP2))
+                setPlayer2Time(true)
+            }
+            if (time.increment) {
+                setIncrement((time.increment.amount / 1000).toString())
+                setIncrementType(time.increment.type)
+            }
+        }
+    }, [])
 
     return (
         <ScrollView style={{ ...styles.container, backgroundColor: theme.background }}>
@@ -122,7 +148,7 @@ export default function AddTime({ navigation }) {
                     </View>
                     <View style={styles.timeInputView}>
                         <TextInput style={{ ...styles.input, ...styles.timeInput, borderBottomColor: time2Error ? colors.red : theme.contrast, color: theme.contrast }}
-                            placeholder={translate('timePlayer2')}
+                            placeholder={translate('time')}
                             value={timePlayer2}
                             keyboardType={'numeric'}
                             placeholderTextColor={theme.primary}
@@ -141,15 +167,17 @@ export default function AddTime({ navigation }) {
 
             <Text style={{ ...styles.label, color: theme.contrast }}>{translate('increment')}</Text>
             <View style={styles.timeInputView}>
-                <TextInput style={{ ...styles.input, ...styles.timeInput, borderBottomColor: theme.contrast, color: theme.contrast }}
+                <TextInput style={{ ...styles.input, ...styles.timeInput, borderBottomColor: incrementError ? colors.red : theme.contrast, color: theme.contrast }}
                     placeholder={translate('increment')}
                     value={increment.toString()}
                     onChangeText={setIncrement}
                     keyboardType={'numeric'}
+                    onBlur={checkIncrementError}
                     placeholderTextColor={theme.primary}
                 />
                 <Text style={{ ...styles.label, color: theme.contrast, paddingBottom: 5 }}>{translate('seconds')}</Text>
             </View>
+            <Text style={styles.textError}>{incrementError}</Text>
 
             {increment ? <View style={styles.incrementTypeView}>
                 <RadioButton color={theme.secondary}

@@ -31,7 +31,13 @@ const ca = {
     DDescription: 'El rellotge del jugador no comença a contar fins que pasa el període de delay.',
     save: 'Desar',
     requiredField: "Aquest camp és obligatori.",
-    timeFormatError: "El temps ha d'estar en el format mm:ss."
+    timeFormatError: "El temps ha d'estar en el format mm:ss.",
+    incrementError: "L'increment ha de ser un nombre sencer.",
+    editTime: "Editar temps",
+    warning: "Atenció",
+    deleteTimeDescription: "Estàs segur que vols eliminar aquest control de temps?",
+    yes: 'Sí',
+    no: 'No'
 }
 
 export default ca

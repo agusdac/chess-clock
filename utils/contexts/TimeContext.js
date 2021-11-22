@@ -8,6 +8,7 @@ export const ACTION_TYPES = {
   UPDATE_TIME: 'update_time',
   STORE_TIMES: 'store_times',
   SET_TIMES: 'set_times',
+  EDIT_TIME: 'edit_time',
   DELETE_TIME: 'delete_time'
 }
 
@@ -74,8 +75,11 @@ const TimeReducer = (state, action) => {
       return { ...state, times: [...state.times, action.time] };
     case ACTION_TYPES.SET_TIMES:
       return { ...state, times: action.times };
+    case ACTION_TYPES.EDIT_TIME:
+      let newTimes = state.times.map(time => time.id === action.time.id ? action.time : time)
+      return { ...state, times: newTimes };
     case ACTION_TYPES.DELETE_TIME:
-      let newTimes = state.times.filter(time => time.id !== action.timeId)
+      newTimes = state.times.filter(time => time.id !== action.timeId)
       AsyncStorage.setItem('times', JSON.stringify(newTimes))
       return { ...state, times: newTimes };
     default:

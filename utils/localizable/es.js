@@ -31,7 +31,13 @@ const es = {
     DDescription: 'El reloj del jugador no empieza a contar hasta que pasa el periodo de delay.',
     save: 'Guardar',
     requiredField: "Este campo es obligatorio.",
-    timeFormatError: "El tiempo tiene que estar en el formato mm:ss."
+    timeFormatError: "El tiempo tiene que estar en el formato mm:ss.",
+    incrementError: "El incremento tiene que ser un número entero.",
+    editTime: "Editar tiempo",
+    warning: "Atención",
+    deleteTimeDescription: "¿Estás seguro de que quieres eliminar este control de tiempo?",
+    yes: 'Sí',
+    no: 'No'
 }
 
 export default es

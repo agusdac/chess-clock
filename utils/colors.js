@@ -16,7 +16,12 @@ const colors = {
     orangeBackground: '#F9D7C7',
     tumbleweed: '#F3B091', //lightorange
     terracota: '#DF6C53', //orange
-    darkSienna: '#230B06' //basically black
+    darkSienna: '#230B06', //basically black
+    shamrockGreen: '#2A7A44',
+    internationalRed: '#C41208',
+    lightRed: '#F2392C',
+    lightGreen: '#709970',
+    greenishWhite: '#DBE6DB'
 }
 
 export default colors;

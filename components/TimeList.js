@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { Ionicons } from '@expo/vector-icons'
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { LanguageContext } from '../utils/contexts/LanguageContext';
 import { TimeContext, ACTION_TYPES } from '../utils/contexts/TimeContext';
 import AppFunctions from '../utils/functions'
 import TouchableIcon from './shared/TouchableIcon';
+import Popup from './shared/Popup';
 
 const TimeList = ({ navigation }) => {
 
@@ -13,15 +15,11 @@ const TimeList = ({ navigation }) => {
 
     const { state, dispatch } = useContext(TimeContext)
     const [activeTimes, setActiveTimes] = useState([])
+    const [showPopup, setShowPopup] = useState(false)
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            console.log(state);
-            setActiveTimes(state.times.map(time => { return { ...time, clicked: false } }))
-        });
-
-        return unsubscribe;
-    }, [navigation]);
+        setActiveTimes(state.times.map(time => { return { ...time, clicked: false } }))
+    }, [state.times]);
 
     const clickItem = id => {
         setActiveTimes(activeTimes.map(time => time.id === id ? { ...time, clicked: !time.clicked } : time))
@@ -30,6 +28,14 @@ const TimeList = ({ navigation }) => {
     const deleteItem = id => {
         setActiveTimes(activeTimes.filter(time => time.id !== id))
         dispatch({ type: ACTION_TYPES.DELETE_TIME, timeId: id })
+        if (activeTimes.length > 1) {
+            dispatch({ type: ACTION_TYPES.UPDATE_TIME, time: state.times[0] })
+        }
+        setShowPopup(false)
+    }
+
+    const editTime = item => {
+        navigation.navigate('AddTime', { time: item })
     }
 
     return (
@@ -62,15 +68,28 @@ const TimeList = ({ navigation }) => {
                                 </Text> : null}
                             </View>
                             <View style={{ marginTop: 5, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <TouchableIcon onPress={() => clickItem(item.id)} containerStyle={{ ...styles.settings, marginRight: 5 }}
+                                <TouchableIcon onPress={() => editTime(item)} containerStyle={{ ...styles.settings, marginRight: 5 }}
                                     family={'Feather'} name={"edit"}
                                     size={20} color={theme.contrast} />
-                                <TouchableIcon onPress={() => deleteItem(item.id)} containerStyle={styles.settings}
+                                <TouchableIcon onPress={() => setShowPopup(true)} containerStyle={styles.settings}
                                     family={'MaterialIcons'} name={"delete"}
                                     size={20} color={theme.contrast} />
                             </View>
                         </View> : null}
+                        <Popup visible={showPopup}
+                            onAccept={() => deleteItem(item.id)}
+                            onClose={() => setShowPopup(false)}
+                            title={translate('warning')}
+                            message={translate('deleteTimeDescription')} />
                     </TouchableOpacity>
+                )}
+                ListFooterComponent={(
+                    <View style={{ alignItems: 'center', marginTop: 30 }}>
+                        <TouchableOpacity style={{ ...styles.addTime, borderColor: theme.contrast }} onPress={() => navigation.navigate('AddTime')}>
+                            <Ionicons name={"md-add-circle-outline"} size={22} color={theme.contrast} />
+                            <Text style={{ fontSize: 15, marginLeft: 7, color: theme.contrast }}>{translate('newTimeControl')}</Text>
+                        </TouchableOpacity>
+                    </View>
                 )}
             />
         </View>
@@ -99,5 +118,15 @@ const styles = StyleSheet.create({
     },
     settings: {
         alignSelf: 'flex-end',
+    },
+    addTime: {
+        padding: 10,
+        width: '100%',
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        flexDirection: 'row',
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })

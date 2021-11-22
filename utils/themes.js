@@ -7,6 +7,8 @@ const themes = [
         primary: colors.grey,
         secondary: colors.blueish,
         contrast: colors.white,
+        win: colors.shamrockGreen,
+        lose: colors.internationalRed
     },
     {
         key: 'darkWithRed',
@@ -14,6 +16,8 @@ const themes = [
         primary: colors.grey,
         secondary: colors.redish,
         contrast: colors.white,
+        win: colors.shamrockGreen,
+        lose: colors.internationalRed
     },
     {
         key: 'darkWithGreen',
@@ -21,6 +25,8 @@ const themes = [
         primary: colors.grey,
         secondary: colors.greenish,
         contrast: colors.white,
+        win: colors.shamrockGreen,
+        lose: colors.internationalRed
     },
     {
         key: 'darkWithBrown',
@@ -28,13 +34,17 @@ const themes = [
         primary: colors.grey,
         secondary: colors.brownish,
         contrast: colors.white,
+        win: colors.shamrockGreen,
+        lose: colors.internationalRed
     },
     {
         key: 'lightWithGreen',
-        background: colors.white,
-        primary: colors.powderBlue,
+        background: colors.greenishWhite,
+        primary: colors.shamrockGreen,
         secondary: colors.shinyShamrock,
-        contrast: colors.black,
+        contrast: colors.darkSienna,
+        win: colors.lightGreen,
+        lose: colors.lightRed
     },
     {
         key: 'lightWithOrange',
@@ -42,6 +52,8 @@ const themes = [
         primary: colors.tumbleweed,
         secondary: colors.terracota,
         contrast: colors.darkSienna,
+        win: colors.lightGreen,
+        lose: colors.lightRed
     },
 ]
 
