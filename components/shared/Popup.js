@@ -21,7 +21,7 @@ export default function Popup({ visible, onClose, onAccept, title, message }) {
                             size={18} color={theme.contrast} />
                     </View>
                     <View style={{ ...styles.body }}>
-                        <Text style={{ color: theme.contrast }}>{message}</Text>
+                        <Text style={{ color: theme.contrast, fontSize: 15 }}>{message}</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
                             <TouchableOpacity onPress={onClose} style={{ ...styles.button, backgroundColor: theme.background }}>
                                 <Text style={{ ...styles.buttonText, color: theme.contrast }}>{translate('no')}</Text>

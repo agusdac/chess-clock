@@ -37,7 +37,11 @@ const en = {
     warning: "Warning",
     deleteTimeDescription: "Are you sure you want to delete this time control?",
     yes: 'Yes',
-    no: 'No'
+    no: 'No',
+    cancel: 'Cancel',
+    delete: 'Delete',
+    deleteAllDescription: "Are you sure you want to delete all the selected time controls?",
+    deleteAllError: "You cannot delete all time controls. Must have at least one."
 }
 
 export default en

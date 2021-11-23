@@ -9,7 +9,8 @@ export const ACTION_TYPES = {
   STORE_TIMES: 'store_times',
   SET_TIMES: 'set_times',
   EDIT_TIME: 'edit_time',
-  DELETE_TIME: 'delete_time'
+  DELETE_TIME: 'delete_time',
+  DELETE_MULTIPLE: 'delete_multiple'
 }
 
 const defaultTimes = [
@@ -72,14 +73,20 @@ const TimeReducer = (state, action) => {
       AsyncStorage.setItem('selectedTime', JSON.stringify(action.time))
       return { ...state, selectedTime: action.time };
     case ACTION_TYPES.STORE_TIMES:
+      AsyncStorage.setItem('times', JSON.stringify([...state.times, action.time]))
       return { ...state, times: [...state.times, action.time] };
     case ACTION_TYPES.SET_TIMES:
       return { ...state, times: action.times };
     case ACTION_TYPES.EDIT_TIME:
       let newTimes = state.times.map(time => time.id === action.time.id ? action.time : time)
+      AsyncStorage.setItem('times', JSON.stringify(newTimes))
       return { ...state, times: newTimes };
     case ACTION_TYPES.DELETE_TIME:
       newTimes = state.times.filter(time => time.id !== action.timeId)
+      AsyncStorage.setItem('times', JSON.stringify(newTimes))
+      return { ...state, times: newTimes };
+    case ACTION_TYPES.DELETE_MULTIPLE:
+      newTimes = state.times.filter(time => !action.times.includes(time.id))
       AsyncStorage.setItem('times', JSON.stringify(newTimes))
       return { ...state, times: newTimes };
     default:

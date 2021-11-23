@@ -37,7 +37,11 @@ const es = {
     warning: "Atención",
     deleteTimeDescription: "¿Estás seguro de que quieres eliminar este control de tiempo?",
     yes: 'Sí',
-    no: 'No'
+    no: 'No',
+    cancel: 'Cancelar',
+    delete: 'Eliminar',
+    deleteAllDescription: "¿Estás seguro de que quieres eliminar los controles de tiempo seleccionados?",
+    deleteAllError: "No se pueden eliminar todos los controles de tiempo. Debe haber mínimo uno."
 }
 
 export default es

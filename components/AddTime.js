@@ -45,7 +45,6 @@ export default function AddTime({ route, navigation }) {
     }
 
     const saveTime = () => {
-
         let newTime = {
             id: route.params ? route.params.time.id : uuid.v4(),
             name,
@@ -61,13 +60,9 @@ export default function AddTime({ route, navigation }) {
             newTime.timeP2 = stringToMiliseconds(timePlayer2)
         }
 
-        AsyncStorage.setItem('times', JSON.stringify(state.times.map(time => time.id === newTime.id ? newTime : time))).then(() => {
-            if (route.params) dispatch({ type: ACTION_TYPES.EDIT_TIME, time: newTime })
-            else dispatch({ type: ACTION_TYPES.STORE_TIMES, time: newTime })
-            navigation.goBack()
-        }).catch((err) => {
-            console.log(err);
-        })
+        if (route.params) dispatch({ type: ACTION_TYPES.EDIT_TIME, time: newTime })
+        else dispatch({ type: ACTION_TYPES.STORE_TIMES, time: newTime })
+        navigation.goBack()
     }
 
     const checkNameError = () => {

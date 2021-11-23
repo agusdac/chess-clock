@@ -35,9 +35,13 @@ const ca = {
     incrementError: "L'increment ha de ser un nombre sencer.",
     editTime: "Editar temps",
     warning: "Atenció",
-    deleteTimeDescription: "Estàs segur que vols eliminar aquest control de temps?",
+    deleteTimeDescription: "Estàs segur que vols esborrar aquest control de temps?",
     yes: 'Sí',
-    no: 'No'
+    no: 'No',
+    cancel: 'Cancelar',
+    delete: 'Esborrar',
+    deleteAllDescription: "Estàs segur que vols esborrar els controls de temps seleccionats?",
+    deleteAllError: "No es poden esborrar tots els controls de temps. Hi ha d'haver mínim un."
 }
 
 export default ca
