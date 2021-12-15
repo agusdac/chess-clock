@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import React, { useState, useEffect } from 'react';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 
@@ -18,9 +17,9 @@ const LanguageContextProvider = (props) => {
     }, [])
 
     const setLanguage = language => {
-      i18n.locale = language
-      setCurrentLanguage(language)
-      AsyncStorage.setItem('language', language)
+        i18n.locale = language
+        setCurrentLanguage(language)
+        AsyncStorage.setItem('language', language)
     }
 
     const translate = key => {

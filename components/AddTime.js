@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from 'react-native'
-import { useContext } from 'react/cjs/react.development'
 import { ThemeContext } from '../utils/contexts/ThemeContext'
 import { LanguageContext } from '../utils/contexts/LanguageContext'
 import { ACTION_TYPES, TimeContext } from '../utils/contexts/TimeContext'
 import uuid from 'react-native-uuid';
 import AppFunctions from '../utils/functions'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import TouchableIcon from './shared/TouchableIcon'
 import colors from '../utils/colors'
 

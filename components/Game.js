@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Clock from './Clock';

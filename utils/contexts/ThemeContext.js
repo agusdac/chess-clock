@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import React, { useState, useEffect } from 'react';
 import themes from '../themes';
 
 export const ThemeContext = React.createContext();
@@ -16,8 +15,8 @@ const ThemeContextProvider = (props) => {
     }, [])
 
     const setTheme = theme => {
-      setCurrentTheme(theme)
-      AsyncStorage.setItem('theme', JSON.stringify(theme))
+        setCurrentTheme(theme)
+        AsyncStorage.setItem('theme', JSON.stringify(theme))
     }
     return (
         <ThemeContext.Provider value={{ theme: currentTheme, setTheme }}>

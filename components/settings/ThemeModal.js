@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native'
 import { ThemeContext } from '../../utils/contexts/ThemeContext';
 import { LanguageContext } from '../../utils/contexts/LanguageContext';

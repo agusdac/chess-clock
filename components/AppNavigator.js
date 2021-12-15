@@ -1,10 +1,9 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Game from './Game';
 import TimeList from './TimeList';
 import { Platform, View } from 'react-native';
-import { useContext } from 'react/cjs/react.development';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { LanguageContext } from '../utils/contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';

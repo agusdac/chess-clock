@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState, useReducer } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import React, { useReducer, useEffect } from 'react';
 
 export const TimeContext = React.createContext();
 

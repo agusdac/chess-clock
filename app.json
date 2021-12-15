@@ -17,13 +17,17 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.agusdacdev.chessclock",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.agusdacdev.chessclock",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
