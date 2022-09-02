@@ -8,50 +8,59 @@ import { getCurrentLanguage } from '../../utils/localizable/localizable'
 
 export default function Settings() {
 
-    const { theme } = useContext(ThemeContext)
-    const { translate } = useContext(LanguageContext)
+  const { theme } = useContext(ThemeContext)
+  const { translate } = useContext(LanguageContext)
 
-    const [isLanguageModalOpen, showLanguageModal] = useState(false)
-    const [isThemeModalOpen, showThemeModal] = useState(false)
+  const [isLanguageModalOpen, showLanguageModal] = useState(false)
+  const [isThemeModalOpen, showThemeModal] = useState(false)
 
-    return (
-        <View style={{ ...styles.container, backgroundColor: theme.background }} >
-            <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.background, borderBottomColor: theme.primary }}
-              onPress={() => showThemeModal(true)}>
-              <Text style={{...styles.itemText, color: theme.contrast}}>{translate('theme') + ' ' + translate(theme.key)}</Text>
-              <View style={{...styles.colorSample, backgroundColor: theme.secondary}}/>
-            </TouchableOpacity>
-            <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.background, borderBottomColor: theme.primary }}
-              onPress={() => showLanguageModal(true)}>
-              <Text style={{...styles.itemText, color: theme.contrast}}>{translate('language') + ' ' + getCurrentLanguage()}</Text>
-            </TouchableOpacity>
-            <LanguageModal visible={isLanguageModalOpen} onPress={() => showLanguageModal(false)}/>
-            <ThemeModal visible={isThemeModalOpen} onPress={() => showThemeModal(false)}/>
-        </View>
-    )
+  return (
+    <View style={{ ...styles.container, backgroundColor: theme.background }} >
+      <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.background, borderBottomColor: theme.primary }}
+        onPress={() => showThemeModal(true)}>
+        <Text style={{ ...styles.itemText, color: theme.contrast }}>{translate('theme') + ' ' + translate(theme.key)}</Text>
+        <View style={{ ...styles.colorSample, backgroundColor: theme.secondary }} />
+      </TouchableOpacity>
+      <TouchableOpacity style={{ ...styles.item, backgroundColor: theme.background, borderBottomColor: theme.primary }}
+        onPress={() => showLanguageModal(true)}>
+        <Text style={{ ...styles.itemText, color: theme.contrast }}>{translate('language') + ' ' + getCurrentLanguage()}</Text>
+      </TouchableOpacity>
+      <View style={{ ...styles.item, backgroundColor: theme.background, borderBottomColor: theme.primary, ...styles.copyrightText }}>
+        <Text style={{ ...styles.itemText, color: theme.contrast }}> Agustín D'Acunto 2022.</Text>
+        <Text style={{ ...styles.itemText, color: theme.contrast, fontSize: 10, marginTop: 5 }}>{translate('suggestions')}</Text>
+      </View>
+      <LanguageModal visible={isLanguageModalOpen} onPress={() => showLanguageModal(false)} />
+      <ThemeModal visible={isThemeModalOpen} onPress={() => showThemeModal(false)} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20
-    },
-    item: {
-      flexDirection: 'row',
-      padding: 20,
-      paddingLeft: 5,
-      paddingBottom: 10,
-      borderBottomWidth: 1,
-      marginTop: 10,
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    },
-    colorSample: {
-      height: 20,
-      width: 20,
-      borderRadius: 10
-    },
-    itemText: {
-      fontSize: 14
-    }
+  container: {
+    flex: 1,
+    padding: 20
+  },
+  item: {
+    flexDirection: 'row',
+    padding: 20,
+    paddingLeft: 5,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    marginTop: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  colorSample: {
+    height: 20,
+    width: 20,
+    borderRadius: 10
+  },
+  itemText: {
+    fontSize: 14
+  },
+  copyrightText: {
+    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'flex-end'
+  }
 })

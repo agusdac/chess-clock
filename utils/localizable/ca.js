@@ -41,7 +41,8 @@ const ca = {
     cancel: 'Cancelar',
     delete: 'Esborrar',
     deleteAllDescription: "Estàs segur que vols esborrar els controls de temps seleccionats?",
-    deleteAllError: "No es poden esborrar tots els controls de temps. Hi ha d'haver mínim un."
+    deleteAllError: "No es poden esborrar tots els controls de temps. Hi ha d'haver mínim un.",
+    suggestions: "Qualsevol sugerència a agusdac.dev@gmail.com."
 }
 
 export default ca

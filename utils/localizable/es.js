@@ -41,7 +41,8 @@ const es = {
     cancel: 'Cancelar',
     delete: 'Eliminar',
     deleteAllDescription: "¿Estás seguro de que quieres eliminar los controles de tiempo seleccionados?",
-    deleteAllError: "No se pueden eliminar todos los controles de tiempo. Debe haber mínimo uno."
+    deleteAllError: "No se pueden eliminar todos los controles de tiempo. Debe haber mínimo uno.",
+    suggestions: "Cualquier sugerencia a agusdac.dev@gmail.com."
 }
 
 export default es

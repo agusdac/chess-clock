@@ -41,7 +41,8 @@ const en = {
     cancel: 'Cancel',
     delete: 'Delete',
     deleteAllDescription: "Are you sure you want to delete all the selected time controls?",
-    deleteAllError: "You cannot delete all time controls. Must have at least one."
+    deleteAllError: "You cannot delete all time controls. Must have at least one.",
+    suggestions: "Any suggestions at agusdac.dev@gmail.com."
 }
 
 export default en
