@@ -19,11 +19,20 @@ const TimeList = ({ navigation }) => {
     const [showMultiplePopup, setShowMultiplePopup] = useState(false)
     const [itemToDelete, setItemToDelete] = useState(null)
     const [deleteMultiple, setDeleteMultiple] = useState(false)
+    const [deleteButtonIsDisabled, setDeleteButtonIsDisabled] = useState(true)
     const [deleteError, setDeleteError] = useState('')
 
     useEffect(() => {
         setActiveTimes(state.times.map(time => { return { ...time, clicked: false, selected: false } }))
     }, [state.times]);
+
+    //disable button for deleting
+    useEffect(() => {
+        if (deleteMultiple) {
+            if (activeTimes.some(time => time.selected)) setDeleteButtonIsDisabled(false)
+            else setDeleteButtonIsDisabled(true)
+        }
+    }, [activeTimes])
 
     const clickItem = id => {
         setActiveTimes(activeTimes.map(time => time.id === id ? { ...time, clicked: !time.clicked } : time))
@@ -129,12 +138,21 @@ const TimeList = ({ navigation }) => {
                         {deleteMultiple ? (
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginTop: deleteError ? 0 : 20 }}>
                                 <TouchableOpacity style={{ ...styles.singleButton, borderColor: theme.lose }} onPress={cancelMultiple}>
-                                    <Ionicons name={"md-add-circle-outline"} size={22} color={theme.lose} />
+                                    <Ionicons name={"close-circle"} size={22} color={theme.lose} />
                                     <Text style={{ fontSize: 15, marginLeft: 7, color: theme.lose }}>{translate('cancel')}</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={{ ...styles.singleButton, borderColor: theme.contrast }} onPress={() => setShowMultiplePopup(true)}>
-                                    <MaterialIcons name={"delete"} size={22} color={theme.contrast} />
-                                    <Text style={{ fontSize: 15, marginLeft: 7, color: theme.contrast }}>{translate('delete')}</Text>
+                                <TouchableOpacity style={
+                                    deleteButtonIsDisabled ?
+                                        { ...styles.singleButton, borderColor: theme.primary }
+                                        : { ...styles.singleButton, borderColor: theme.contrast }
+                                }
+                                    onPress={() => setShowMultiplePopup(true)}
+                                    disabled={deleteButtonIsDisabled}>
+                                    <MaterialIcons name={"delete"} size={22} color={deleteButtonIsDisabled ? theme.primary : theme.contrast} />
+                                    <Text style={deleteButtonIsDisabled ?
+                                        { fontSize: 15, marginLeft: 7, color: theme.primary } :
+                                        { fontSize: 15, marginLeft: 7, color: theme.contrast }
+                                    }>{translate('delete')}</Text>
                                 </TouchableOpacity>
                             </View>
                         ) : (
