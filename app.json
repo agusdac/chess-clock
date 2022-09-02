@@ -33,7 +33,7 @@
       "favicon": "./assets/favicon.png"
     },
     "androidNavigationBar": {
-      "visible": "sticky-immersive",
+      "visible": "sticky-immersive"
     }
   }
 }
