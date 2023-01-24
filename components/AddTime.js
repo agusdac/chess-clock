@@ -122,7 +122,6 @@ export default function AddTime({ route, navigation }) {
                 <TextInput style={{ ...styles.input, ...styles.timeInput, borderBottomColor: timeError ? colors.red : theme.contrast, color: theme.contrast }}
                     placeholder={translate('time')}
                     value={time}
-                    keyboardType={'numeric'}
                     placeholderTextColor={theme.primary}
                     onChangeText={setTime}
                     onBlur={checkTimeError}

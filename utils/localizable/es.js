@@ -42,7 +42,17 @@ const es = {
     delete: 'Eliminar',
     deleteAllDescription: "¿Estás seguro de que quieres eliminar los controles de tiempo seleccionados?",
     deleteAllError: "No se pueden eliminar todos los controles de tiempo. Debe haber mínimo uno.",
-    suggestions: "Cualquier sugerencia a agusdac.dev@gmail.com."
+    suggestions: "Cualquier sugerencia a agusdac.dev@gmail.com.",
+    summaryTitle: "Resumen de tiempos",
+    average: "Media: ",
+    shortest: "Más corto: ",
+    longest: "Más largo: ",
+    first10: "Tiempo en hacer los 10 primeros movimientos: ",
+    averageAfter10: "Media después de los 10 primeros movimientos: ",
+    shortestAfter10: "Más corto después de los 10 primeros movimientos: ",
+    longestAfter10: "Más largo después de los 10 primeros movimientos: ",
+    player1: "Jugador 1 (arriba)",
+    player2: "Jugador 2 (abajo)",
 }
 
 export default es

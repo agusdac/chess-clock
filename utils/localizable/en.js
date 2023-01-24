@@ -42,7 +42,17 @@ const en = {
     delete: 'Delete',
     deleteAllDescription: "Are you sure you want to delete all the selected time controls?",
     deleteAllError: "You cannot delete all time controls. Must have at least one.",
-    suggestions: "Any suggestions at agusdac.dev@gmail.com."
+    suggestions: "Any suggestions at agusdac.dev@gmail.com.",
+    summaryTitle: "Summary of times",
+    average: "Average: ",
+    shortest: "Shortest: ",
+    longest: "Longest: ",
+    first10: "Time to do the first 10 moves: ",
+    averageAfter10: "Average after the first 10 moves: ",
+    shortestAfter10: "Shortest after the first 10 moves: ",
+    longestAfter10: "Longest after the first 10 moves: ",
+    player1: "Player 1 (up)",
+    player2: "Player 2 (down)",
 }
 
 export default en

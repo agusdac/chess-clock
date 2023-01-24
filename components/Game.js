@@ -4,9 +4,9 @@ import Clock from './Clock';
 import { ThemeContext } from '../utils/contexts/ThemeContext';
 import { TimeContext } from '../utils/contexts/TimeContext';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useKeepAwake } from 'expo-keep-awake';
 import TouchableIcon from './shared/TouchableIcon';
-
+import TimesSummary from './TimesSummary';
 
 export default function Game() {
 
@@ -15,10 +15,13 @@ export default function Game() {
     const { state } = useContext(TimeContext)
     const { selectedTime } = state
     const navigation = useNavigation()
+    useKeepAwake() // the screen won't black out
 
     /* State */
     const [timePlayer1, setTimePlayer1] = useState(selectedTime.time)
+    const [lastTimePlayer1, setLastTimePlayer1] = useState(selectedTime.time)
     const [timePlayer2, setTimePlayer2] = useState(selectedTime.timeP2 ?? selectedTime.time)
+    const [lastTimePlayer2, setLastTimePlayer2] = useState(selectedTime.time)
     const [increment, setIncrement] = useState(selectedTime.increment)
     const [movesPlayer1, setMovesPlayer1] = useState(0)
     const [movesPlayer2, setMovesPlayer2] = useState(0)
@@ -30,11 +33,16 @@ export default function Game() {
     const [isPlayer1Last, setLastPlayer] = useState(null)
     const countRefPlayer1 = useRef(null)
     const countRefPlayer2 = useRef(null)
+    const [totalTimesPlayer1, setTotalTimesPlayer1] = useState([])
+    const [totalTimesPlayer2, setTotalTimesPlayer2] = useState([])
+
     /* Delay */
     const delayTimerRefPlayer1 = useRef(null)
     const delayTimerRefPlayer2 = useRef(null)
     /* Bronstein */
     const [msPassed, setMsPassed] = useState(0)
+
+    const [showTimesSummary, setShowTimesSummary] = useState(false)
 
     const getIncrement = () => {
         switch (increment.type) {
@@ -90,8 +98,10 @@ export default function Game() {
     const clickedPlayer1 = () => {
         clearInterval(countRefPlayer1.current)
         clearInterval(delayTimerRefPlayer1.current)
+        setTotalTimesPlayer1([...totalTimesPlayer1, lastTimePlayer1 - timePlayer1])
         if (isPlayer2Disabled) {
             if (increment) setTimePlayer1(timePlayer1 + getIncrement())
+            setLastTimePlayer1(timePlayer1)
             setMovesPlayer1((movesPlayer1) => movesPlayer1 + 1)
         }
         startTimerOrDelayPlayer2()
@@ -105,8 +115,10 @@ export default function Game() {
     const clickedPlayer2 = () => {
         clearInterval(countRefPlayer2.current)
         clearInterval(delayTimerRefPlayer2.current)
+        setTotalTimesPlayer2([...totalTimesPlayer2, lastTimePlayer2 - timePlayer2])
         if (isPlayer1Disabled) {
             if (increment) setTimePlayer2(timePlayer2 + getIncrement())
+            setLastTimePlayer2(timePlayer2)
             setMovesPlayer2((movesPlayer2) => movesPlayer2 + 1)
         }
         startTimerOrDelayPlayer1()
@@ -119,7 +131,11 @@ export default function Game() {
 
     const resetTimers = () => {
         setTimePlayer1(selectedTime.time)
+        setLastTimePlayer1(selectedTime.time)
         setTimePlayer2(selectedTime.timeP2 ?? selectedTime.time)
+        setLastTimePlayer2(selectedTime.timeP2 ?? selectedTime.time)
+        setTotalTimesPlayer1([])
+        setTotalTimesPlayer2([])
         setMovesPlayer1(0)
         setMovesPlayer2(0)
         clearInterval(countRefPlayer1.current)
@@ -165,6 +181,12 @@ export default function Game() {
     }
 
     useEffect(() => {
+        if (timePlayer1 === 0 || timePlayer2 === 0) {
+            setShowTimesSummary(true)
+        }
+    }, [timePlayer1, timePlayer2])
+
+    useEffect(() => {
         resetTimers()
         setIncrement(selectedTime.increment)
     }, [state])
@@ -198,6 +220,11 @@ export default function Game() {
                 finished={timePlayer2 === 0}
                 winner={timePlayer1 === 0}
                 moves={movesPlayer2} />
+            <TimesSummary visible={showTimesSummary}
+                onPress={() => setShowTimesSummary(false)}
+                totalTimesPlayer1={totalTimesPlayer1}
+                totalTimesPlayer2={totalTimesPlayer2}
+            />
         </View>
     );
 }

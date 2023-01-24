@@ -42,7 +42,17 @@ const ca = {
     delete: 'Esborrar',
     deleteAllDescription: "Estàs segur que vols esborrar els controls de temps seleccionats?",
     deleteAllError: "No es poden esborrar tots els controls de temps. Hi ha d'haver mínim un.",
-    suggestions: "Qualsevol sugerència a agusdac.dev@gmail.com."
+    suggestions: "Qualsevol sugerència a agusdac.dev@gmail.com.",
+    summaryTitle: "Resum de temps",
+    average: "Mitjana: ",
+    shortest: "Més curt: ",
+    longest: "Més llarg: ",
+    first10: "Temps en fer els 10 primers moviments: ",
+    averageAfter10: "Mitjana després dels 10 primers moviments: ",
+    shortestAfter10: "Més curt després dels 10 primers moviments: ",
+    longestAfter10: "Més llarg després dels 10 primers moviments: ",
+    player1: "Jugador 1 (adalt)",
+    player2: "Jugador 2 (abaix)",
 }
 
 export default ca
