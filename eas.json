@@ -10,7 +10,9 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "node": "14.0.0"
+    }
   },
   "submit": {
     "production": {}
